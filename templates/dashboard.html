@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta name="robots" content="noindex, noarchive">
+    <meta name="googlebot" content="noindex, noarchive">
+    <title>Dashboard - :3</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="window">
+        <div class="title-bar">
+            <div class="title-bar-text">Dashboard</div>
+        </div>
+        <div class="window-body">
+            <div class="sidebar">
+                <div class="menu-section">
+                    <div class="menu-header">Menu</div>
+                    <a href="{{ url_for('dashboard.dashboard') }}" class="menu-item active">Dashboard</a>
+                    <a href="{{ url_for('connections.connections') }}" class="menu-item">Connections</a>
+                    <a href="{{ url_for('files.files') }}" class="menu-item">Files</a>
+                    <a href="{{ url_for('graph.graph') }}" class="menu-item">Graph</a>
+                    <a href="{{ url_for('targets.add_target') }}" class="menu-item">Add Target</a>
+                </div>
+                <div class="menu-section">
+                    <a href="{{ url_for('auth.logout') }}" class="menu-item">Logout</a>
+                </div>
+            </div>
+            <div class="content">
+                <div class="stats-grid">
+                    <div class="stat-metric">
+                        <div class="stat-metric-value">{{ total_targets }}</div>
+                        <div class="stat-metric-label">Total Targets</div>
+                    </div>
+                    <div class="stat-metric">
+                        <div class="stat-metric-value">{{ online_targets }}</div>
+                        <div class="stat-metric-label">Online</div>
+                    </div>
+                    <div class="stat-metric">
+                        <div class="stat-metric-value">{{ total_files }}</div>
+                        <div class="stat-metric-label">Files</div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="stat-header">Live Map</div>
+                    <div id="live-map"></div>
+                </div>
+            </div>
+        </div>
+        <div class="status-bar">:3</div>
+    </div>
+    <script src="{{ url_for('static', filename='map.js') }}"></script>
+</body>
+</html>

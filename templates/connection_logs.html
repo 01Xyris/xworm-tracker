@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta name="robots" content="noindex, noarchive">
+    <meta name="googlebot" content="noindex, noarchive">
+    <title>Connection Logs - :3</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="window">
+        <div class="title-bar">
+            <div class="title-bar-text">Connection Logs: {{ target.ip }}</div>
+        </div>
+        <div class="window-body">
+            <div class="sidebar">
+                <div class="menu-section">
+                    <div class="menu-header">Menu</div>
+                    <a href="{{ url_for('dashboard.dashboard') }}" class="menu-item">Dashboard</a>
+                    <a href="{{ url_for('connections.connections') }}" class="menu-item active">Connections</a>
+                    <a href="{{ url_for('files.files') }}" class="menu-item">Files</a>
+                    <a href="{{ url_for('graph.graph') }}" class="menu-item">Graph</a>
+                    <a href="{{ url_for('targets.add_target') }}" class="menu-item">Add Target</a>
+                </div>
+                <div class="menu-section">
+                    <a href="{{ url_for('auth.logout') }}" class="menu-item">Logout</a>
+                </div>
+            </div>
+            <div class="content">
+                <div style="margin-bottom: 15px;">
+                    <a href="{{ url_for('connections.connections') }}" class="btn">Back to Connections</a>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Event</th>
+                                <th>Message</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for log in pagination.items %}
+                            <tr>
+                                <td>
+                                    {% if log.event_type == 'success' %}
+                                    <span class="status-tag online">{{ log.event_type }}</span>
+                                    {% elif log.event_type == 'failed' %}
+                                    <span class="status-tag failed">{{ log.event_type }}</span>
+                                    {% elif log.event_type == 'disconnected' %}
+                                    <span class="status-tag offline">{{ log.event_type }}</span>
+                                    {% else %}
+                                    <span class="status-tag">{{ log.event_type }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ log.message }}</td>
+                                <td>{{ log.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                
+                {% if pagination.pages > 1 %}
+                <div class="pagination">
+                    {% if pagination.has_prev %}
+                    <a href="{{ url_for('connections.connection_logs', target_id=target.id, page=pagination.prev_num) }}" class="btn-page">Previous</a>
+                    {% endif %}
+                    
+                    <span style="color: #e0e0e0;">Page {{ pagination.page }} of {{ pagination.pages }}</span>
+                    
+                    {% if pagination.has_next %}
+                    <a href="{{ url_for('connections.connection_logs', target_id=target.id, page=pagination.next_num) }}" class="btn-page">Next</a>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="status-bar">{{ pagination.total }} Log Entries</div>
+    </div>
+</body>
+</html>

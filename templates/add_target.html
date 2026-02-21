@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta name="robots" content="noindex, noarchive">
+    <meta name="googlebot" content="noindex, noarchive">
+    <title>Add Target - :3</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script>
+        function toggleCustomDelimiter() {
+            const select = document.getElementById('delimiter_type');
+            const custom = document.getElementById('custom_delimiter_group');
+            custom.style.display = select.value === 'custom' ? 'block' : 'none';
+        }
+        
+        function toggleCustomKey() {
+            const select = document.getElementById('key_type');
+            const custom = document.getElementById('custom_key_group');
+            custom.style.display = select.value === 'custom' ? 'block' : 'none';
+        }
+        
+        function toggleMode() {
+            const single = document.getElementById('single_mode');
+            const bulk = document.getElementById('bulk_mode');
+            const modeSelect = document.querySelector('input[name="mode"]:checked').value;
+            
+            if (modeSelect === 'single') {
+                single.style.display = 'block';
+                bulk.style.display = 'none';
+            } else {
+                single.style.display = 'none';
+                bulk.style.display = 'block';
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="window">
+        <div class="title-bar">
+            <div class="title-bar-text">Add Target</div>
+        </div>
+        <div class="window-body">
+            <div class="sidebar">
+                <div class="menu-section">
+                    <div class="menu-header">Menu</div>
+                    <a href="{{ url_for('dashboard.dashboard') }}" class="menu-item">Dashboard</a>
+                    <a href="{{ url_for('connections.connections') }}" class="menu-item">Connections</a>
+                    <a href="{{ url_for('files.files') }}" class="menu-item">Files</a>
+                    <a href="{{ url_for('graph.graph') }}" class="menu-item">Graph</a>
+                    <a href="{{ url_for('targets.add_target') }}" class="menu-item active">Add Target</a>
+                </div>
+                <div class="menu-section">
+                    <a href="{{ url_for('auth.logout') }}" class="menu-item">Logout</a>
+                </div>
+            </div>
+            <div class="content">
+                <div class="dashboard-card">
+                    <div class="stat-header">Add Target(s)</div>
+                    
+                    {% if error %}
+                    <div class="error-message">{{ error }}</div>
+                    {% endif %}
+                    
+                    {% if success %}
+                    <div class="success-message">{{ success }}</div>
+                    {% endif %}
+                    
+                    {% if errors %}
+                    <div class="error-message">
+                        <strong>Errors:</strong><br>
+                        {% for err in errors %}
+                        {{ err }}<br>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="radio" name="mode" value="single" checked onchange="toggleMode()"> Single Target
+                        </label>
+                        <label style="margin-left: 20px;">
+                            <input type="radio" name="mode" value="bulk" onchange="toggleMode()"> Bulk Import
+                        </label>
+                    </div>
+                    
+                    <form method="POST" action="{{ url_for('targets.add_target') }}">
+                        <div id="single_mode">
+                            <div class="form-group">
+                                <label>IP Address</label>
+                                <input type="text" name="ip">
+                            </div>
+                            <div class="form-group">
+                                <label>Port</label>
+                                <input type="text" name="port">
+                            </div>
+                            <div class="form-group">
+                                <label>Delimiter</label>
+                                <select name="delimiter_type" id="delimiter_type" onchange="toggleCustomDelimiter()">
+                                    <option value="<Xwormmm>">&lt;Xwormmm&gt;</option>
+                                    <option value="<Violet>">&lt;Violet&gt;</option>
+                                    <option value="custom">Custom</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="custom_delimiter_group" style="display: none;">
+                                <label>Custom Delimiter</label>
+                                <input type="text" name="custom_delimiter">
+                            </div>
+                            <div class="form-group">
+                                <label>Key</label>
+                                <select name="key_type" id="key_type" onchange="toggleCustomKey()">
+                                    <option value="123456789">123456789</option>
+                                    <option value="XSXSXSX">XSXSXSX</option>
+                                    <option value="custom">Custom</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="custom_key_group" style="display: none;">
+                                <label>Custom Key</label>
+                                <input type="text" name="custom_key">
+                            </div>
+                        </div>
+                        
+                        <div id="bulk_mode" style="display: none;">
+                            <div class="form-group">
+                                <label>Bulk Import (Format: ip,port,key,delimiter - one per line)</label>
+                                <textarea name="bulk_input" rows="10" style="width: 100%; font-family: monospace;" placeholder="127.0.0.1,8080,XSXSXSX,<Violet>
+192.168.1.100,9090,123456789,<Xwormmm>"></textarea>
+                            </div>
+                        </div>
+                        
+                        <button type="submit">Add Target(s)</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="status-bar">kekw</div>
+    </div>
+</body>
+</html>

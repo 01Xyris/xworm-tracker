@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta name="robots" content="noindex, noarchive">
+    <meta name="googlebot" content="noindex, noarchive">
+    <title>Connections - :3</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="window">
+        <div class="title-bar">
+            <div class="title-bar-text">Connections</div>
+        </div>
+        <div class="window-body">
+            <div class="sidebar">
+                <div class="menu-section">
+                    <div class="menu-header">Menu</div>
+                    <a href="{{ url_for('dashboard.dashboard') }}" class="menu-item">Dashboard</a>
+                    <a href="{{ url_for('connections.connections') }}" class="menu-item active">Connections</a>
+                    <a href="{{ url_for('files.files') }}" class="menu-item">Files</a>
+                    <a href="{{ url_for('graph.graph') }}" class="menu-item">Graph</a>
+                    <a href="{{ url_for('targets.add_target') }}" class="menu-item">Add Target</a>
+                </div>
+                <div class="menu-section">
+                    <a href="{{ url_for('auth.logout') }}" class="menu-item">Logout</a>
+                </div>
+            </div>
+            <div class="content">
+                <div style="margin-bottom: 15px;">
+                    <form method="GET" action="{{ url_for('connections.connections') }}" style="display: inline-block;">
+                        <select name="status" onchange="this.form.submit()" style="padding: 5px;">
+                            <option value="all" {% if status_filter == 'all' %}selected{% endif %}>All</option>
+                            <option value="online" {% if status_filter == 'online' %}selected{% endif %}>Online</option>
+                            <option value="offline" {% if status_filter == 'offline' %}selected{% endif %}>Offline</option>
+                            <option value="connecting" {% if status_filter == 'connecting' %}selected{% endif %}>Connecting</option>
+                        </select>
+                    </form>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>IP</th>
+                                <th>Port</th>
+                                <th>Status</th>
+                                <th>Last Seen</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for target in targets %}
+                            <tr>
+                                <td>{{ target.ip }}</td>
+                                <td>{{ target.port }}</td>
+                                <td>
+                                    <span class="status-tag {{ target.status }}">{{ target.status }}</span>
+                                </td>
+                                <td>{{ target.last_seen.strftime('%Y-%m-%d %H:%M:%S') if target.last_seen else 'Never' }}</td>
+                                <td>
+                                    <form method="POST" action="{{ url_for('targets.start_target', target_id=target.id) }}" style="display: inline;">
+                                        <button type="submit">Start</button>
+                                    </form>
+                                    <form method="POST" action="{{ url_for('targets.stop_target', target_id=target.id) }}" style="display: inline;">
+                                        <button type="submit">Stop</button>
+                                    </form>
+                                    <form method="POST" action="{{ url_for('targets.reconnect_target', target_id=target.id) }}" style="display: inline;">
+                                        <button type="submit">Reconnect</button>
+                                    </form>
+                                    <a href="{{ url_for('connections.connection_logs', target_id=target.id) }}" class="btn">Logs</a>
+                                    <form method="POST" action="{{ url_for('targets.delete_target', target_id=target.id) }}" style="display: inline;" onsubmit="return confirm('Delete this target?');">
+                                        <button type="submit">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="status-bar">{{ targets|length }} Targets</div>
+    </div>
+</body>
+</html>

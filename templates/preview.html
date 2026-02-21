@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta name="robots" content="noindex, noarchive">
+    <meta name="googlebot" content="noindex, noarchive">
+    <title>Log Preview</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="window">
+        <div class="title-bar">
+            <div class="title-bar-text">Log Preview</div>
+        </div>
+        <div class="window-body">
+            <div class="sidebar">
+                <div class="menu-section">
+                    <div class="menu-header">Menu</div>
+                    <a href="{{ url_for('dashboard.dashboard') }}" class="menu-item">Dashboard</a>
+                    <a href="{{ url_for('connections.connections') }}" class="menu-item">Connections</a>
+                    <a href="{{ url_for('files.files') }}" class="menu-item active">Files</a>
+                    <a href="{{ url_for('graph.graph') }}" class="menu-item">Graph</a>
+                    <a href="{{ url_for('targets.add_target') }}" class="menu-item">Add Target</a>
+                </div>
+                <div class="menu-section">
+                    <a href="{{ url_for('auth.logout') }}" class="menu-item">Logout</a>
+                </div>
+            </div>
+            <div class="content">
+                <div class="preview-info">
+                    <div class="preview-info-item">
+                        <span class="preview-info-label">IP:</span>
+                        <span class="preview-info-value">{{ log.ip }}</span>
+                    </div>
+                    <div class="preview-info-item">
+                        <span class="preview-info-label">Command:</span>
+                        <span class="preview-info-value">{{ log.command }}</span>
+                    </div>
+                    <div class="preview-info-item">
+                        <span class="preview-info-label">SHA256:</span>
+                        <span class="preview-info-value">{{ log.file_hash or 'N/A' }}</span>
+                    </div>
+                    <div class="preview-info-item">
+                        <span class="preview-info-label">Captured:</span>
+                        <span class="preview-info-value">{{ log.captured_at.strftime('%Y-%m-%d %H:%M:%S') }}</span>
+                    </div>
+                </div>
+                <div class="preview-content">{{ log.content }}</div>
+                <div class="action-buttons">
+                    <a href="{{ url_for('files.files') }}" class="btn">Back to Files</a>
+                    {% if log.file_path %}
+                    <a href="{{ url_for('files.download_file', log_id=log.id) }}" class="btn">Download</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="status-bar">MmmmMMm Data</div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta name="robots" content="noindex, noarchive">
+    <meta name="googlebot" content="noindex, noarchive">
+    <title>:3 - Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">:3 helo</div>
+        
+        <div id="cat-question" class="cat-question">
+            <p>Привет, ты любишь кошек?</p>
+            <p>你好，你喜欢猫吗？</p>
+            <div class="cat-buttons">
+                <button type="button" onclick="answerCats(true)">Yes</button>
+                <button type="button" onclick="answerCats(false)">No</button>
+            </div>
+        </div>
+        <div id="cat-response" class="cat-response hidden"></div>
+        <div id="login-form" class="hidden">
+            {% if error %}
+            <div class="error-message">{{ error }}</div>
+            {% endif %}
+            <form method="POST">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" required>
+                </div>
+                <button type="submit" style="width: 100%;">Login</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        function answerCats(likes) {
+            document.getElementById('cat-question').classList.add('hidden');
+            const responseDiv = document.getElementById('cat-response');
+            responseDiv.classList.remove('hidden');
+            
+            if (likes) {
+                responseDiv.textContent = ':3';
+                setTimeout(() => {
+                    responseDiv.classList.add('hidden');
+                    document.getElementById('login-form').classList.remove('hidden');
+                }, 1000);
+            } else {
+                responseDiv.textContent = '>:3';
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
+            }
+        }
+    </script>
+</body>
+</html>
