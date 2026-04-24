@@ -1,3 +1,6 @@
 <img width="1738" height="1090" alt="image" src="https://github.com/user-attachments/assets/26e5ba85-ea43-4ec8-8514-737d33b57e79" />
 
-<img width="701" height="292" alt="image" src="https://github.com/user-attachments/assets/c17f329f-a156-49e5-ad59-c74c513f5b71" />
+<img width="680" height="432" alt="image" src="https://github.com/user-attachments/assets/83b5e541-0a79-47b5-af0b-89510cdc2296" />
+
+buggy and stripped down version of the xworm tracker
+it's able to intercept/log packets and save download_execute tasks and other things 
