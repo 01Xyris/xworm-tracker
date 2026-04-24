@@ -4,3 +4,5 @@
 
 buggy and stripped down version of the xworm tracker
 it's able to intercept/log packets and save download_execute tasks and other things 
+
+this version is not secure or anything else was just used for local testing the webpanel logic is a vibe coded mess
