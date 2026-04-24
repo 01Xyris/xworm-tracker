@@ -6,7 +6,7 @@ import threading
 import time
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'xJ8kL9mN2pQ4rS6tU8vW0yZ1aB3cD5eF7gH9iJ0kL2mN4pQ6rS8tU0vW2yZ4aB6c'
+app.config['SECRET_KEY'] = 'xJ8kL9mN2pQ4rS6tU8vW0yZ1aB3cD5eF7gH9iJ0kL2mN4pQ6rS8tU0vW2yZ4aB6c' # replace with your key this just placeholder
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///c2monitor.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
